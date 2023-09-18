@@ -2,15 +2,15 @@
     import { ref, Ref } from 'vue'
     import StarSvgIcon from './star-svg-icon.vue'
 
-    const props = withDefaults(defineProps<{ numberOfStars: number }>(), { numberOfStars: 5})
+    const props = withDefaults(defineProps<{ numberOfStars?: number, modelValue?: number }>(), { numberOfStars: 5})
 
-    const emit = defineEmits<{( e: "change", value: number ): void}>()
+    const emit = defineEmits<{( e: "update", value: number | undefined ): void}>()
 
-    const selectedStar: Ref<number | null> = ref(null)
-    const hoveredStar: Ref<number | null> = ref(null)
+    const selectedStar: Ref<number | undefined> = ref(props.modelValue)
+    const hoveredStar: Ref<number | undefined> = ref(undefined)
 
     const isSolid = (starIndex:number) => {
-        return (hoveredStar?.value ?? -1 ) >= starIndex
+        return (hoveredStar?.value ?? selectedStar.value ?? -1 ) >= starIndex 
     }
 
     const onStarOver = (starIndex:number) => {
@@ -22,8 +22,10 @@
     }
 
     const onStarClick = (starIndex:number) => {
-        selectedStar.value = starIndex
-        emit('change', selectedStar.value)
+        if (starIndex !== selectedStar.value) {
+            selectedStar.value = starIndex
+            emit('update', selectedStar.value)
+        }
     }
 </script>
 
@@ -35,26 +37,32 @@
                 :key="`rating-input-${index}`" 
                 type="button" 
                 class="rating-input__item"
+                :class="`rating-${index}`"
                 @mouseover.native="onStarOver(index)"
                 @mouseleave.native="onStarLeave()"
                 @focusin="onStarOver(index)"
                 @focusout="onStarLeave()"
-                @click="onStarClick(index)"
+                @click.native="onStarClick(index)"
             >
                 <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" />
             </button>
         </div>
-        <input type="hidden" :value="selectedStar" @input="$emit('update', selectedStar)">
+        <input type="hidden" v-model="selectedStar" />
     </div>
 </template>
 
 <style scoped lang="scss">
 .rating-input {
+    &__items {
+        display: flex;
+    }
+
     &__item {
-        padding: 0;
+        cursor: pointer;
+        padding: 0.125rem;
         border: none;
         background: none;
-        outline: none;;
+        outline: none;
     }
 }
 </style>

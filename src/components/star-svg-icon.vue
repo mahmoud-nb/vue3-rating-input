@@ -40,6 +40,8 @@
     width: $starSize;
     height: $starSize;
     fill: $starColor;
+    position: relative;
+    z-index: -1;
 }
 .rating-svg-icons__defs {
     position: fixed;
