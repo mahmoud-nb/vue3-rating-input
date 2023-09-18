@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ref, Ref } from 'vue'
-    import RatingSvgIcon from './rating-svg-icon.vue'
+    import StarSvgIcon from './star-svg-icon.vue'
 
     const props = withDefaults(defineProps<{ numberOfStars: number }>(), { numberOfStars: 5})
 
@@ -41,7 +41,7 @@
                 @focusout="onStarLeave()"
                 @click="onStarClick(index)"
             >
-                <RatingSvgIcon :icon="isSolid(index) ? 'solid' : 'outline'" />
+                <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" />
             </button>
         </div>
         <input type="hidden" :value="selectedStar" @input="$emit('update', selectedStar)">

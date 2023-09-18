@@ -3,7 +3,7 @@
 
     const iconsDefs = ref(null)
 
-    const props = withDefaults(defineProps<{ icon:string }>(), { icon: 'solid'})
+    const props = withDefaults(defineProps<{ display:string }>(), { display: 'solid'})
 
     const disabledIconsDefs = computed (() => (document.querySelectorAll('.rating-svg-icons__defs').length || 0 ) > 0)
 </script>
@@ -11,9 +11,8 @@
 <template>
 
     <svg class="rating-svg-icon">
-        <use :xlink:href="`#${props.icon}`"></use>
+        <use :xlink:href="`#${props.display}`"></use>
     </svg>
-
 
     <Teleport to="body"  :disabled="disabledIconsDefs">
         <div class="rating-svg-icons__defs" ref="iconsDefs">
