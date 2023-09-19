@@ -2,7 +2,11 @@
     import { ref, Ref } from 'vue'
     import StarSvgIcon from './star-svg-icon.vue'
 
-    const props = withDefaults(defineProps<{ numberOfStars?: number, modelValue?: number }>(), { numberOfStars: 5})
+    const props = withDefaults(defineProps<{ 
+        numberOfStars?:number,
+        color?:string, 
+        modelValue?:number 
+    }>(), { numberOfStars: 5, color: '#ffb74b' })
 
     const emit = defineEmits<{( e: "update", value: number | undefined ): void}>()
 
@@ -44,7 +48,7 @@
                 @focusout="onStarLeave()"
                 @click.native="onStarClick(index)"
             >
-                <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" />
+                <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" :color="color" />
             </button>
         </div>
         <input type="hidden" v-model="selectedStar" />

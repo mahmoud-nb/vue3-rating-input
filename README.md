@@ -37,5 +37,22 @@ import "vue-rating-input/dist/style.css";
 ```
 
 ### Props
-- numberOfStars <Number> (not required) : Number of starts to display
-- modelValue <Number> (not required) : The initial value of the input
+```javascript
+{
+    numberOfStars: {
+        type: Number,
+        default: 5,
+        description: Number of starts to display
+    },
+    color: {
+        type: String,
+        default: '#ffb74b',
+        description: Color of star icon
+    },
+    modelValue: {
+        type: Number,
+        default: undefined,
+        description: Default value of the input
+    },
+}
+```
