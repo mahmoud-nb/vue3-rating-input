@@ -15,7 +15,20 @@ npm install vue-rating-input
 ```
 
 ## Usage
-Load the lib and create an instance
+Load and use vueRatingInput component.
+
+### Script
+```javascript
+
+<script setup>
+  import vueRatingInput from 'vue-rating-input'
+
+  import { ref } from 'vue'
+
+  const value = ref()
+</script>
+```
+### Script using Typescript
 ```javascript
 
 <script setup lang="ts">
@@ -25,7 +38,10 @@ Load the lib and create an instance
 
   const value:Ref<number | undefined> = ref()
 </script>
+```
 
+### Template
+```html
 <template>
     <RatingInput v-model="value" />
 </template>
