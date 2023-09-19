@@ -1,8 +1,31 @@
 {
-  "name": "vue3-rating-input",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "vue-rating-input",
+  "version": "0.0.1",
+  "files": ["dist"],
+  "main": "./dist/rating-input.umd.js",
+  "module": "./dist/rating-input.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/rating-input.es.js",
+      "require": "./dist/rating-input.umd.js"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "author": {
+    "name": "Mahmoud NBET",
+    "email": "mahmoud.nb@gmail.com"
+  },
+  "homepage": "https://github.com/mahmoud-nb/vue3-rating-input",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mahmoud-nb/vue3-rating-input.git"
+  },
+  "keywords": [
+    "Vue3",
+    "typescript",
+    "rating"
+  ],
+  "license": "ISC",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",

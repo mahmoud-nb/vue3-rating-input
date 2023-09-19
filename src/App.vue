@@ -3,9 +3,9 @@
 
   import { ref, Ref } from 'vue'
 
-  const value:Ref<number | undefined> = ref(4)
+  const value:Ref<number | undefined> = ref()
 </script>
 
 <template>
-    <RatingInput :modelValue="value" @update="value = $event" /> ({{ value }})
+    <RatingInput :modelValue="value" @update="value = $event" />
 </template>
