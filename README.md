@@ -19,7 +19,7 @@ Load the lib and create an instance
 ```javascript
 
 <script setup lang="ts">
-  import RatingInput from './components/rating-input.vue'
+  import vueRatingInput from 'vue-rating-input'
 
   import { ref, Ref } from 'vue'
 
@@ -27,7 +27,7 @@ Load the lib and create an instance
 </script>
 
 <template>
-    <RatingInput :modelValue="value" @update="value = $event" />
+    <RatingInput v-model="value" />
 </template>
 ```
 
@@ -48,6 +48,11 @@ import "vue-rating-input/dist/style.css";
         type: String,
         default: '#ffb74b',
         description: Color of star icon
+    },
+    size: {
+        type: String,
+        default: '2rem',
+        description: CSS size of star icon
     },
     modelValue: {
         type: Number,

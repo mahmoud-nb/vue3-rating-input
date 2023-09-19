@@ -5,10 +5,11 @@
     const props = withDefaults(defineProps<{ 
         numberOfStars?:number,
         color?:string, 
+        size?:string, 
         modelValue?:number 
-    }>(), { numberOfStars: 5, color: '#ffb74b' })
+    }>(), { numberOfStars: 5, color: '#ffb74b', size: '2rem' })
 
-    const emit = defineEmits<{( e: "update", value: number | undefined ): void}>()
+    const emit = defineEmits<{( e: "update:modelValue", value: number | undefined ): void}>()
 
     const selectedStar: Ref<number | undefined> = ref(props.modelValue)
     const hoveredStar: Ref<number | undefined> = ref(undefined)
@@ -28,7 +29,7 @@
     const onStarClick = (starIndex:number) => {
         if (starIndex !== selectedStar.value) {
             selectedStar.value = starIndex
-            emit('update', selectedStar.value)
+            emit('update:modelValue', selectedStar.value)
         }
     }
 </script>
