@@ -1,7 +1,9 @@
 {
   "name": "vue-rating-input",
-  "version": "0.0.1",
-  "files": ["dist"],
+  "version": "1.0.0",
+  "files": [
+    "dist"
+  ],
   "main": "./dist/rating-input.umd.js",
   "module": "./dist/rating-input.es.js",
   "exports": {

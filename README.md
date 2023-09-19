@@ -1,6 +1,6 @@
 # Vue Rating Input ⭐⭐⭐⭐⭐
 
-[![npm](https://img.shields.io/npm/v/map-trix)](https://www.npmjs.com/package/vue-rating-input)
+[![npm](https://img.shields.io/npm/v/vue-rating-input)](https://www.npmjs.com/package/vue-rating-input)
 
 ## Description
 A simple and easy to use Vue package that allows the use of a star rating field to use with your forms.
@@ -29,6 +29,11 @@ Load the lib and create an instance
 <template>
     <RatingInput :modelValue="value" @update="value = $event" />
 </template>
+```
+
+and import CSS on your main.js
+```javascript
+import "vue-rating-input/dist/style.css";
 ```
 
 ### Props
