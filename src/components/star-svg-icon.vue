@@ -10,7 +10,7 @@
     }>(), { 
         display: 'solid', 
         color: '#ffb74b',
-        size: '3rem',
+        size: '2rem',
     })
 
     const disabledIconsDefs = computed (() => (document.querySelectorAll('.rating-svg-icons__defs').length || 0 ) > 0)

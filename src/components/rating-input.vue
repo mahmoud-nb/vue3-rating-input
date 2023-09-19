@@ -13,7 +13,7 @@
 
     const selectedStar: Ref<number | undefined> = ref(props.modelValue)
     const hoveredStar: Ref<number | undefined> = ref(undefined)
-
+    
     const isSolid = (starIndex:number) => {
         return (hoveredStar?.value ?? selectedStar.value ?? -1 ) >= starIndex 
     }
@@ -42,14 +42,13 @@
                 :key="`rating-input-${index}`" 
                 type="button" 
                 class="rating-input__item"
-                :class="`rating-${index}`"
                 @mouseover.native="onStarOver(index)"
                 @mouseleave.native="onStarLeave()"
                 @focusin="onStarOver(index)"
                 @focusout="onStarLeave()"
                 @click.native="onStarClick(index)"
             >
-                <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" :color="color" />
+                <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" :color="color" :size="size" />
             </button>
         </div>
         <input type="hidden" v-model="selectedStar" />
