@@ -41,9 +41,18 @@ Load and use vueRatingInput component.
 ```
 
 ### Template
+
+Using v-model
 ```html
 <template>
     <RatingInput v-model="value" />
+</template>
+```
+
+Using event callback
+```html
+<template>
+    <RatingInput :modelValue="value" @update="value = $event" />
 </template>
 ```
 
