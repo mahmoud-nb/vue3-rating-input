@@ -7,9 +7,6 @@ A simple and easy to use Vue package that allows the use of a star rating field 
 
 This package is created using the Vue3 framework and the typescript language
 
-## See it in action
-Examples [here](https://vue-pmuxjd.stackblitz.io)
-
 
 ## Install
 Available via npm
