@@ -14,6 +14,9 @@ Available via npm
 npm install vue-rating-input
 ```
 
+## See it in action
+Examples [here](https://vue-pmuxjd.stackblitz.io)
+
 ## Usage
 Load and use vueRatingInput component.
 

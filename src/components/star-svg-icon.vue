@@ -8,7 +8,8 @@
         color:string, 
         size:string,
     }>(), { 
-        display: 'solid', 
+        display: 'solid',
+        color: '#ffb74b',
         size: '2rem',
     })
 
