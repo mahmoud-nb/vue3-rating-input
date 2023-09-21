@@ -37,7 +37,7 @@
 <template>
     <div class="rating-input">
         <div class="rating-input__items">
-            <button 
+            <span 
                 v-for="index in props.numberOfStars" 
                 :key="`rating-input-${index}`" 
                 type="button" 
@@ -49,7 +49,7 @@
                 @click.native="onStarClick(index)"
             >
                 <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" :color="color" :size="size" />
-            </button>
+            </span>
         </div>
         <input type="hidden" v-model="selectedStar" />
     </div>

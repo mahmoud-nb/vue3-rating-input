@@ -40,11 +40,7 @@
 
 </template>
 
-<style scoped lang="scss">
-.rating-svg-icon {
-    position: relative;
-    z-index: -1;
-}
+<style scoped>
 .rating-svg-icons__defs {
     position: fixed;
     width: 0;
