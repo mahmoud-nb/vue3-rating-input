@@ -55,7 +55,7 @@ Using v-model
 Using event callback
 ```html
 <template>
-    <RatingInput :modelValue="value" @update="value = $event" />
+    <RatingInput :modelValue="value" @update:modelValue="value = $event" />
 </template>
 ```
 
