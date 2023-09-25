@@ -1,12 +1,13 @@
 <script setup lang="ts">
     import { ref, computed } from 'vue'
+    import { CssColor, CssSize } from '../types/globals.ts'
 
     const iconsDefs = ref(null)
 
     const props = withDefaults(defineProps<{ 
         display:string, 
-        color:string, 
-        size:string,
+        color:CssColor, 
+        size:CssSize,
     }>(), { 
         display: 'solid',
         color: '#ffb74b',

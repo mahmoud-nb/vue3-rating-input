@@ -70,15 +70,16 @@ import "vue-rating-input/dist/style.css";
     numberOfStars: {
         type: Number,
         default: 5,
+        validator: Must be between 2 and 10
         description: Number of starts to display
     },
     color: {
-        type: String,
+        type: CssColor,
         default: '#ffb74b',
         description: Color of star icon
     },
     size: {
-        type: String,
+        type: CssSize,
         default: '2rem',
         description: CSS size of star icon
     },

@@ -1,11 +1,14 @@
 <script setup lang="ts">
-    import { ref, Ref } from 'vue'
+    import { ref, Ref, onMounted } from 'vue'
     import StarSvgIcon from './star-svg-icon.vue'
+    import { IntRange, CssColor, CssSize } from '../types/globals.ts'
+
+    const NUMBER_OF_STARS_RANGE = { min: 2, max: 10 }
 
     const props = withDefaults(defineProps<{ 
-        numberOfStars?:number,
-        color?:string, 
-        size?:string, 
+        numberOfStars?:IntRange<2, 10>,
+        color?:CssColor, 
+        size?:CssSize, 
         modelValue?:number 
     }>(), { numberOfStars: 5, color: '#ffb74b', size: '2rem' })
 
@@ -14,6 +17,17 @@
     const selectedStar: Ref<number | undefined> = ref(props.modelValue)
     const hoveredStar: Ref<number | undefined> = ref(undefined)
     
+    onMounted(() => {
+
+        if (props.numberOfStars) {
+            if (Number.isNaN(props.numberOfStars)) {
+                throw new Error('numberOfStars must be a number between 0 10');
+            } else if (props.numberOfStars < NUMBER_OF_STARS_RANGE.min || props.numberOfStars > NUMBER_OF_STARS_RANGE.max) {
+                throw new RangeError(`The prop \`numberOfStars\` is out of range [${NUMBER_OF_STARS_RANGE.min}, ${NUMBER_OF_STARS_RANGE.max}].`);
+            }
+        }
+    })
+
     const isSolid = (starIndex:number) => {
         return (hoveredStar?.value ?? selectedStar.value ?? -1 ) >= starIndex 
     }
