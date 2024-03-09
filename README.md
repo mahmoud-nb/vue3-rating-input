@@ -84,6 +84,11 @@ import "vue-rating-input/dist/style.css";
         default: '2rem',
         description: CSS size of star icon
     },
+    readonly: {
+        type: Boolean,
+        default: false,
+        description: Allows you to distinguish between editable mode and reading mode
+    },
     modelValue: {
         type: Number,
         default: undefined,

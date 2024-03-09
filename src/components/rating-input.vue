@@ -9,8 +9,9 @@
         numberOfStars?:IntRange<2, 10>,
         color?:CssColor, 
         size?:CssSize, 
+        readonly?: boolean,
         modelValue?:number 
-    }>(), { numberOfStars: 5, color: '#ffb74b', size: '2rem' })
+    }>(), { numberOfStars: 5, color: '#ffb74b', size: '2rem', readonly:false })
 
     const emit = defineEmits<{( e: "update:modelValue", value: number | undefined ): void}>()
 
@@ -33,15 +34,17 @@
     }
 
     const onStarOver = (starIndex:number) => {
-        hoveredStar.value = starIndex
+        if (!props.readonly) 
+            hoveredStar.value = starIndex
     }
 
     const onStarLeave = () => {
-        hoveredStar.value = selectedStar.value
+        if (!props.readonly) 
+            hoveredStar.value = selectedStar.value
     }
 
     const onStarClick = (starIndex:number) => {
-        if (starIndex !== selectedStar.value) {
+        if (!props.readonly && starIndex !== selectedStar.value) {
             selectedStar.value = starIndex
             emit('update:modelValue', selectedStar.value)
         }
@@ -55,7 +58,7 @@
                 v-for="index in props.numberOfStars" 
                 :key="`rating-input-${index}`" 
                 type="button" 
-                class="rating-input__item"
+                :class="['rating-input__item', props.readonly && 'rating-input__item--is-readonly']"
                 @mouseover.native="onStarOver(index)"
                 @mouseleave.native="onStarLeave()"
                 @focusin="onStarOver(index)"
@@ -73,6 +76,7 @@
 .rating-input {
     &__items {
         display: flex;
+        align-items: center;
     }
 
     &__item {
@@ -81,6 +85,10 @@
         border: none;
         background: none;
         outline: none;
+
+        &--is-readonly {
+            cursor: default;
+        }
     }
 }
 </style>
