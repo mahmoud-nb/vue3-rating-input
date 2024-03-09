@@ -96,3 +96,10 @@ import "vue-rating-input/dist/style.css";
     },
 }
 ```
+
+### Slots
+
+Two slots are available for this component:
+
+- After: allows you to add content before the stars. It will be useful to define your labels.
+- Before: allows you to add content after the stars. it will be useful to add content such as the average grades in the case of reading mode (readonly = true) for example.

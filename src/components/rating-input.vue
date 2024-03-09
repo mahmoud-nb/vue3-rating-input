@@ -54,6 +54,9 @@
 <template>
     <div class="rating-input">
         <div class="rating-input__items">
+            <div v-if="$slots.before" class="rating-input__item">
+                <slot  name="before"></slot>
+            </div>
             <span 
                 v-for="index in props.numberOfStars" 
                 :key="`rating-input-${index}`" 
@@ -67,6 +70,9 @@
             >
                 <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" :color="color" :size="size" />
             </span>
+            <div v-if="$slots.after" class="rating-input__item">
+                <slot  name="after"></slot>
+            </div>
         </div>
         <input type="hidden" v-model="selectedStar" />
     </div>
