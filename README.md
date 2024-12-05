@@ -60,11 +60,6 @@ Using event callback
 </template>
 ```
 
-and import CSS on your main.js
-```javascript
-import "vue-rating-input/dist/style.css";
-```
-
 ### Props
 ```javascript
 {
