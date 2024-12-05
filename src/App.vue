@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import RatingInput from './components/rating-input.vue'
 
-  import { ref, Ref } from 'vue'
+  import { ref } from 'vue'
 
-  const value:Ref<number | undefined> = ref()
+  const value = ref<number>()
 </script>
 
 <template>

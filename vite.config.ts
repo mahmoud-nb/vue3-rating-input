@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'VueRatingInput',
+      name: 'Vue Star Rating Input',
       fileName: (format) => `rating-input.${format}.js`,
       formats: ['es', 'umd']
     },

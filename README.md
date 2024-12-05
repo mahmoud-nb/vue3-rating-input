@@ -60,6 +60,13 @@ Using event callback
 </template>
 ```
 
+## Style
+> from version 1.3.0 you no longer need to explicitly import the style. Please remove the style import if this is the case for you
+
+```javascript
+~~import "vue-rating-input/dist/style.css";~~
+```
+
 ### Props
 ```javascript
 {

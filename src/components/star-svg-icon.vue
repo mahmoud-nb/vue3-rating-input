@@ -14,7 +14,7 @@
         size: '2rem',
     })
 
-    const disabledIconsDefs = computed (() => (document.querySelectorAll('.rating-svg-icons__defs').length || 0 ) > 0)
+    const disabledIconsDefs = computed<boolean>(() => (document.querySelectorAll('.rating-svg-icons__defs').length || 0 ) > 0)
 </script>
 
 <template>
