@@ -1,6 +1,7 @@
 //import {App} from "vue"
 //@ts-ignore
-import RatingInput from './rating-input.vue'
+import RatingInput from './components/rating-input.vue'
+
 /*
 const VueRatingInput = {
     install(app:App) {
