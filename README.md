@@ -38,9 +38,9 @@ Load and use vueRatingInput component.
 <script setup lang="ts">
   import vueRatingInput from 'vue-rating-input'
 
-  import { ref, Ref } from 'vue'
+  import { ref } from 'vue'
 
-  const value:Ref<number | undefined> = ref()
+  const value = ref<number>()
 </script>
 ```
 
@@ -62,10 +62,6 @@ Using event callback
 
 ## Style
 > from version 1.3.0 you no longer need to explicitly import the style. Please remove the style import if this is the case for you
-
-```javascript
-~~import "vue-rating-input/dist/style.css";~~
-```
 
 ### Props
 ```javascript

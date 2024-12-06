@@ -1,6 +1,6 @@
 {
   "name": "vue-rating-input",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "files": [
     "dist"
   ],
@@ -25,7 +25,8 @@
     "Vue",
     "Typescript",
     "Star",
-    "Rating"
+    "Rating",
+    "Star Rating"
   ],
   "license": "ISC",
   "scripts": {
