@@ -1,7 +1,8 @@
 <script setup lang="ts">
     import { ref, onMounted } from 'vue'
-    import StarSvgIcon from './star-svg-icon.vue'
-    import { IntRange, CssColor, CssSize } from '../types/globals.ts'
+    import StarSVG from './StarSVG.vue'
+    import { IntRange, CssColor, CssSize } from '../types/globals'
+    import { useObserveMouse } from '../composables/observeMouse.ts';
 
     const NUMBER_OF_STARS_RANGE = { min: 2, max: 10 }
 
@@ -12,6 +13,7 @@
         backgroundColor?:CssColor,
         enableOutline?: boolean,
         readonly?: boolean,
+        allowHalfSelect?: boolean,
         modelValue?:number 
     }>(), { 
         numberOfStars: 5,
@@ -19,10 +21,13 @@
         color: '#ffb74b', 
         enableOutline: true,
         readonly:false,
+        allowHalfSelect: false,
         modelValue: 0 
     })
 
     const emit = defineEmits<{(e: "update:modelValue", value: number): void}>()
+
+    const {startObserve, endObserve, mouseInLeftHalf} = useObserveMouse()
 
     const selectedStar = ref<number>(props.modelValue)
     const hoveredStar = ref<number>(0)
@@ -39,28 +44,38 @@
 
     const getStarValue = (starIndex: number) => {
         if (hoveredStar.value !== 0) {
-            const currentHoverValue = hoveredStar.value - (starIndex - 1)
-            return Math.max(0, Math.min(currentHoverValue, 1))
+            if (props.allowHalfSelect)
+                return hoveredStar.value >= starIndex ? (hoveredStar.value == starIndex ? (mouseInLeftHalf.value ? 0.5 : 1) : 1 ) : 0
+            else 
+                return hoveredStar.value >= starIndex ? 1 : 0
         }
 
         const currentValue = selectedStar.value - (starIndex - 1)
         return Math.max(0, Math.min(currentValue, 1))
     }
 
-    const onStarOver = (starIndex: number) => {
+    const onStarOver = (starIndex: number, event: MouseEvent) => {
         if (props.readonly) return
+
+        startObserve(event.currentTarget as HTMLElement)
 
         hoveredStar.value = starIndex
     }
 
     const onStarLeave = () => {
         hoveredStar.value = 0
+        endObserve()
     }
 
     const onStarClick = (starIndex: number) => {
         if (props.readonly || selectedStar.value === starIndex) return
 
-        selectedStar.value = starIndex
+        if (props.allowHalfSelect) {
+            const value = starIndex - (mouseInLeftHalf.value ? 0.5 : 0)
+            selectedStar.value = value
+        } else {
+            selectedStar.value = starIndex
+        }
     
         emit('update:modelValue', selectedStar.value)
     }
@@ -78,11 +93,11 @@
                 type="button" 
                 :class="['rating-input__item', props.readonly && 'rating-input__item--is-readonly']"
 
-                @mouseover="onStarOver(index)"
+                @mouseover="onStarOver(index, $event)"
                 @mouseleave="onStarLeave"
                 @click="onStarClick(index)"
             >
-                <StarSvgIcon 
+                <StarSVG 
                     :value="getStarValue(index)" 
                     :color="color" 
                     :size="size" 

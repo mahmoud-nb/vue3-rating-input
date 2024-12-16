@@ -65,7 +65,6 @@ Using event callback
 ~~import "vue-rating-input/dist/style.css";~~
 
 ### Props
-
 ```javascript
 {
     numberOfStars: {
@@ -97,12 +96,18 @@ Using event callback
         type: Boolean,
         required: false,
         default: true,
-        description: enable outline style
+        description: Enable outline style
     },
     backgroundColor: {
         type: CssSize,
         required: false
-        description: define color of empty star
+        description: Define color of empty star
+    },
+    allowHalfSelect: {
+        type: Boolean,
+        required: false,
+        default: false,
+        description: Allow select half of star
     },
     modelValue: {
         type: Number,

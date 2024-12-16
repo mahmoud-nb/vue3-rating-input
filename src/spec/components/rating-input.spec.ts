@@ -2,7 +2,7 @@ import { ref, computed } from 'vue'
 import { mount, shallowMount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
 import RatingInputComponent from '../../components/rating-input.vue'
-import StarSvgIcon from '../../components/star-svg-icon.vue'
+import StarSvgIcon from '../../components/StarSVG.vue'
 
 const getRandomIndex = (max:number): number => Math.floor(Math.random() * max);
 

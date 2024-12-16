@@ -12,6 +12,7 @@
       "require": "./dist/rating-input.umd.js"
     }
   },
+  "types": "index.ts",
   "author": {
     "name": "Mahmoud NBET",
     "email": "mahmoud.nb@gmail.com"

@@ -3,7 +3,7 @@
 
   import { ref } from 'vue'
 
-  const value = ref<number>(2)
+  const value = ref<number>()
 </script>
 
 <template>

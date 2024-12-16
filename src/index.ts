@@ -1,12 +1,11 @@
-//import {App} from "vue"
+import { App } from "vue"
 //@ts-ignore
-import RatingInput from './components/rating-input.vue'
+import VueRatingInput from './components/rating-input.vue'
 
-/*
-const VueRatingInput = {
-    install(app:App) {
-        app.component('RatingInput', RatingInput)
+const RatingInput = {
+    install(app: App): void {
+        app.component('RatingInput', VueRatingInput)
     }
-}*/
+}
 
 export default RatingInput
