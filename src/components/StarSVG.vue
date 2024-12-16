@@ -22,11 +22,11 @@
 
     const clipWidth = computed(() => props.value * 100)
 
-    const isSVGDefined = computed<boolean>(() => (document.querySelectorAll('.rating-svg-icons__defs').length || 0 ) > 0)
+    const isSVGDefined = computed<boolean>(() => (document.querySelectorAll('.v-rating-star-svg__defs').length || 0 ) > 0)
 </script>
 
 <template>
-    <svg class="rating-svg-icon" :fill="props.color" :height="props.size" :width="props.size">
+    <svg class="v-rating-star-svg" :fill="props.color" :height="props.size" :width="props.size">
         <defs>
             <clipPath :id="`clip-star-${uniqueId}`">
                 <rect x="0" y="0" :width="`${clipWidth}%`" height="100%" />
@@ -38,7 +38,7 @@
     </svg>
 
     <Teleport to="body" v-if="!isSVGDefined">
-        <div class="rating-svg-icons__defs" ref="iconsDefs">
+        <div class="v-rating-star-svg__defs" ref="iconsDefs">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <defs>
                     <symbol viewBox="0 0 14 13" id="outline">
@@ -56,7 +56,7 @@
 </template>
 
 <style scoped>
-.rating-svg-icons__defs {
+.v-rating-star-svg__defs {
     position: fixed;
     width: 0;
     height: 0;

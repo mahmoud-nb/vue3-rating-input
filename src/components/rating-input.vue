@@ -82,17 +82,20 @@
 </script>
 
 <template>
-    <div class="rating-input">
-        <div class="rating-input__items">
-            <div v-if="$slots.before" class="rating-input__item">
+    <div class="v-rating">
+        <div class="v-rating__stars">
+            <div v-if="$slots.before" class="v-rating__star">
                 <slot name="before"></slot>
             </div>
             <div 
                 v-for="index in props.numberOfStars" 
-                :key="`rating-input-${index}`" 
+                :key="`v-rating-${index}`"
+                :class="[
+                    'v-rating__star', 
+                    props.readonly && 'v-rating__star--is-readonly'
+                ]"
                 type="button" 
-                :class="['rating-input__item', props.readonly && 'rating-input__item--is-readonly']"
-
+                tabindex="0"
                 @mouseover="onStarOver(index, $event)"
                 @mouseleave="onStarLeave"
                 @click="onStarClick(index)"
@@ -105,7 +108,7 @@
                     :background-color
                 />
             </div>
-            <div v-if="$slots.after" class="rating-input__item">
+            <div v-if="$slots.after" class="v-rating__star">
                 <slot name="after"></slot>
             </div>
         </div>
@@ -114,13 +117,13 @@
 </template>
 
 <style scoped lang="scss">
-.rating-input {
-    &__items {
+.v-rating {
+    &__stars {
         display: flex;
         align-items: center;
     }
 
-    &__item {
+    &__star {
         cursor: pointer;
         padding: 0.125rem;
         border: none;
@@ -129,6 +132,11 @@
 
         &--is-readonly {
             cursor: default;
+        }
+
+        &:focus-visible {
+            outline: 2px dashed darkorange;
+            border-radius: 4px;
         }
     }
 }
