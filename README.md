@@ -78,7 +78,7 @@ Using event callback
         type: CssColor,
         required: false,
         default: '#ffb74b',
-        description: Color of star icon
+        description: Color of the star icon (CSS color value)
     },
     size: {
         type: CssSize,
@@ -99,15 +99,15 @@ Using event callback
         description: Enable outline style
     },
     backgroundColor: {
-        type: CssSize,
+        type: CssColor,
         required: false
-        description: Define color of empty star
+        description: Define color of empty star (CSS color value)
     },
     allowHalfSelect: {
         type: Boolean,
         required: false,
         default: false,
-        description: Allow select half of star
+        description: Allow selection of half a star
     },
     modelValue: {
         type: Number,
