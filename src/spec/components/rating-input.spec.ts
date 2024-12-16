@@ -20,7 +20,7 @@ describe('Vue Rating Input', () => {
     it('changes color when hovered', async () => {
         await stars[0].trigger('mouseenter')
         const svg = StarSvgIconWrapper.find('svg')
-        expect(svg.find('use').attributes().href).toEqual('#solid')
+        expect(svg.findAll('use')[1].attributes().href).toEqual('#filled')
     })
 
     it('emits update:modelValue when clicked', async () => {
@@ -41,7 +41,7 @@ describe('Vue Rating Input', () => {
         expect(RatingInputWrapper.html()).toMatchSnapshot()
       })
   
-      it('shoud load Rating Input component with 5 stars', () => {
+      it('shoud load stars rating input component with 5 stars', () => {
         const stars = RatingInputWrapper.findAll('.rating-input__item').length
         expect(stars).toEqual(5)
       })

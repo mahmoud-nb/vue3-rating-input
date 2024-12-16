@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, Ref, onMounted } from 'vue'
+    import { ref, onMounted } from 'vue'
     import StarSvgIcon from './star-svg-icon.vue'
     import { IntRange, CssColor, CssSize } from '../types/globals.ts'
 
@@ -7,19 +7,27 @@
 
     const props = withDefaults(defineProps<{ 
         numberOfStars?:IntRange<2, 10>,
+        size?:CssSize,
         color?:CssColor, 
-        size?:CssSize, 
+        backgroundColor?:CssColor,
+        enableOutline?: boolean,
         readonly?: boolean,
         modelValue?:number 
-    }>(), { numberOfStars: 5, color: '#ffb74b', size: '2rem', readonly:false })
+    }>(), { 
+        numberOfStars: 5,
+        size: '2rem',
+        color: '#ffb74b', 
+        enableOutline: true,
+        readonly:false,
+        modelValue: 0 
+    })
 
-    const emit = defineEmits<{( e: "update:modelValue", value: number | undefined ): void}>()
+    const emit = defineEmits<{(e: "update:modelValue", value: number): void}>()
 
-    const selectedStar: Ref<number | undefined> = ref(props.modelValue)
-    const hoveredStar: Ref<number | undefined> = ref(undefined)
+    const selectedStar = ref<number>(props.modelValue)
+    const hoveredStar = ref<number>(0)
     
     onMounted(() => {
-
         if (props.numberOfStars) {
             if (Number.isNaN(props.numberOfStars)) {
                 throw new Error('numberOfStars must be a number between 0 10');
@@ -29,25 +37,32 @@
         }
     })
 
-    const isSolid = (starIndex:number) => {
-        return (hoveredStar?.value ?? selectedStar.value ?? -1 ) >= starIndex 
+    const getStarValue = (starIndex: number) => {
+        if (hoveredStar.value !== 0) {
+            const currentHoverValue = hoveredStar.value - (starIndex - 1)
+            return Math.max(0, Math.min(currentHoverValue, 1))
+        }
+
+        const currentValue = selectedStar.value - (starIndex - 1)
+        return Math.max(0, Math.min(currentValue, 1))
     }
 
-    const onStarOver = (starIndex:number) => {
-        if (!props.readonly) 
-            hoveredStar.value = starIndex
+    const onStarOver = (starIndex: number) => {
+        if (props.readonly) return
+
+        hoveredStar.value = starIndex
     }
 
     const onStarLeave = () => {
-        if (!props.readonly) 
-            hoveredStar.value = selectedStar.value
+        hoveredStar.value = 0
     }
 
-    const onStarClick = (starIndex:number) => {
-        if (!props.readonly && starIndex !== selectedStar.value) {
-            selectedStar.value = starIndex
-            emit('update:modelValue', selectedStar.value)
-        }
+    const onStarClick = (starIndex: number) => {
+        if (props.readonly || selectedStar.value === starIndex) return
+
+        selectedStar.value = starIndex
+    
+        emit('update:modelValue', selectedStar.value)
     }
 </script>
 
@@ -62,13 +77,18 @@
                 :key="`rating-input-${index}`" 
                 type="button" 
                 :class="['rating-input__item', props.readonly && 'rating-input__item--is-readonly']"
-                @mouseover.native="onStarOver(index)"
-                @mouseleave.native="onStarLeave()"
-                @focusin="onStarOver(index)"
-                @focusout="onStarLeave()"
-                @click.native="onStarClick(index)"
+
+                @mouseover="onStarOver(index)"
+                @mouseleave="onStarLeave"
+                @click="onStarClick(index)"
             >
-                <StarSvgIcon :display="isSolid(index) ? 'solid' : 'outline'" :color="color" :size="size" />
+                <StarSvgIcon 
+                    :value="getStarValue(index)" 
+                    :color="color" 
+                    :size="size" 
+                    :enable-outline
+                    :background-color
+                />
             </div>
             <div v-if="$slots.after" class="rating-input__item">
                 <slot name="after"></slot>

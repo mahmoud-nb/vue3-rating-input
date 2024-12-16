@@ -3,9 +3,9 @@
 
   import { ref } from 'vue'
 
-  const value = ref<number>()
+  const value = ref<number>(2)
 </script>
 
 <template>
-    <RatingInput :modelValue="value" @update="value = $event" />
+    <RatingInput v-model="value" />
 </template>

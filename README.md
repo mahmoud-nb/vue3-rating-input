@@ -60,36 +60,53 @@ Using event callback
 </template>
 ```
 
-## Style
-> from version 1.3.0 you no longer need to explicitly import the style. Please remove the style import if this is the case for you
+### Style
+> From version 1.3.0 you no longer need to explicitly import the style. Please remove the style import if this is the case for you
+~~import "vue-rating-input/dist/style.css";~~
 
 ### Props
+
 ```javascript
 {
     numberOfStars: {
         type: Number,
+        required: false,
         default: 5,
         validator: Must be between 2 and 10
         description: Number of starts to display
     },
     color: {
         type: CssColor,
+        required: false,
         default: '#ffb74b',
         description: Color of star icon
     },
     size: {
         type: CssSize,
+        required: false,
         default: '2rem',
         description: CSS size of star icon
     },
     readonly: {
         type: Boolean,
+        required: false,
         default: false,
         description: Allows you to distinguish between editable mode and reading mode
     },
+    enableOutline: {
+        type: Boolean,
+        required: false,
+        default: true,
+        description: enable outline style
+    },
+    backgroundColor: {
+        type: CssSize,
+        required: false
+        description: define color of empty star
+    },
     modelValue: {
         type: Number,
-        default: undefined,
+        default: 0,
         description: Default value of the input
     },
 }
