@@ -2,7 +2,7 @@
     import { ref, onMounted } from 'vue'
     import StarSVG from './StarSVG.vue'
     import { IntRange, CssColor, CssSize } from '../types/globals'
-    import { useObserveMouse } from '../composables/observeMouse.ts';
+    import { useObserveMouse } from '../composables/observeMouse.ts'
 
     const NUMBER_OF_STARS_RANGE = { min: 2, max: 10 }
 
@@ -68,14 +68,13 @@
     }
 
     const onStarClick = (starIndex: number) => {
-        if (props.readonly || selectedStar.value === starIndex) return
+        if (props.readonly) return
 
-        if (props.allowHalfSelect) {
-            const value = starIndex - (mouseInLeftHalf.value ? 0.5 : 0)
-            selectedStar.value = value
-        } else {
-            selectedStar.value = starIndex
-        }
+        const value = props.allowHalfSelect ? starIndex - (mouseInLeftHalf.value ? 0.5 : 0) : starIndex
+
+        if (selectedStar.value === value) return
+
+        selectedStar.value = value
     
         emit('update:modelValue', selectedStar.value)
     }
