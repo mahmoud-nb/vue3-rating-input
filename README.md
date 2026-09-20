@@ -172,5 +172,20 @@ Two slots are available for this component:
 </template>
 ```
 
+## Releasing
+
+This project uses [Changesets](https://github.com/changesets/changesets) to version the package and maintain the [CHANGELOG](./CHANGELOG.md).
+
+```sh
+# 1. Describe your changes (pick patch/minor/major, write a summary)
+npm run changeset
+
+# 2. Apply pending changesets: bumps the version and updates CHANGELOG.md
+npm run version
+
+# 3. Build and publish to npm
+npm run release
+```
+
 ## License
 [ISC](./LICENSE) © Mahmoud NBET
