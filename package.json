@@ -28,7 +28,9 @@
     "Typescript",
     "Star",
     "Rating",
-    "Star Rating"
+    "Star Rating",
+    "accessibility",
+    "a11y"
   ],
   "license": "ISC",
   "scripts": {

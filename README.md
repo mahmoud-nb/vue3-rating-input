@@ -44,6 +44,17 @@ Load and use vueRatingInput component.
 </script>
 ```
 
+### Global registration (plugin)
+
+The default export is also a Vue plugin, so you can register the component globally once:
+```javascript
+import { createApp } from 'vue'
+import RatingInput from 'vue-rating-input'
+
+const app = createApp(App)
+app.use(RatingInput) // registers <RatingInput /> globally
+```
+
 ### Template
 
 Using v-model
@@ -107,15 +118,36 @@ Using event callback
         type: Boolean,
         required: false,
         default: false,
-        description: Allow selection of half a star
+        description: Allow selection of half a star (mouse only — see note below)
     },
     modelValue: {
         type: Number,
         default: 0,
         description: Default value of the input
     },
+    label: {
+        type: String,
+        required: false,
+        default: 'Rating',
+        description: Accessible label (aria-label) exposed to assistive technologies
+    },
 }
 ```
+
+> **Note on `allowHalfSelect`:** half-star selection relies on the mouse position over the star and is therefore pointer-only. Keyboard users get a `0.5` step via the arrow keys, but touch devices fall back to whole-star selection.
+
+### Accessibility
+
+The component is exposed as a slider to assistive technologies (`role="slider"` with `aria-valuemin` / `aria-valuemax` / `aria-valuenow`). It is a single focus stop and can be operated with the keyboard:
+
+| Key | Action |
+| --- | --- |
+| `→` / `↑` | Increase the rating by one step |
+| `←` / `↓` | Decrease the rating by one step |
+| `Home` | Set to 0 |
+| `End` | Set to the maximum |
+
+In `readonly` mode it is exposed as an image (`role="img"`) with the value in its label, and is removed from the tab order.
 
 ### Slots
 
@@ -139,3 +171,6 @@ Two slots are available for this component:
     </RatingInput>
 </template>
 ```
+
+## License
+[ISC](./LICENSE) © Mahmoud NBET

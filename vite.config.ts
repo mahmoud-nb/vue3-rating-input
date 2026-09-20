@@ -17,6 +17,9 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue'],
       output: {
+        // The library exposes both a default and a named export; declaring the
+        // mode explicitly silences Rollup's UMD named/default-mix warning.
+        exports: 'named',
         globals: {
           vue: 'Vue',
         },
