@@ -1,108 +1,90 @@
-import { ref, computed } from 'vue'
 import { mount, shallowMount } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'
-import RatingInputComponent from '../../components/rating-input.vue'
-import StarSvgIcon from '../../components/StarSVG.vue'
-
-const getRandomIndex = (max:number): number => Math.floor(Math.random() * max);
+import RatingInput from '../../components/rating-input.vue'
+import StarSVG from '../../components/StarSVG.vue'
 
 describe('Vue Rating Input', () => {
-
-  const RatingInputWrapper = mount(RatingInputComponent)
-  const stars = RatingInputWrapper.findAll('.rating-input__item')
-
-  describe('Star Svg Icon Component', () => {
-    const StarSvgIconWrapper = shallowMount(StarSvgIcon);
-    it('renders correctly', () => {
-        expect(StarSvgIconWrapper.exists()).toBe(true);
+  describe('StarSVG component', () => {
+    it('renders an svg', () => {
+      const wrapper = shallowMount(StarSVG, {
+        props: { value: 0.5, color: '#ffb74b', size: '2rem' },
+      })
+      expect(wrapper.find('svg.v-rating-star-svg').exists()).toBe(true)
     })
 
-    it('changes color when hovered', async () => {
-        await stars[0].trigger('mouseenter')
-        const svg = StarSvgIconWrapper.find('svg')
-        expect(svg.findAll('use')[1].attributes().href).toEqual('#filled')
-    })
-
-    it('emits update:modelValue when clicked', async () => {
-        await stars[0].trigger('click')
-        expect(RatingInputWrapper.emitted('update:modelValue')).toBeTruthy();
+    it('clips the filled star according to the value', () => {
+      const wrapper = shallowMount(StarSVG, {
+        props: { value: 0.5, color: '#ffb74b', size: '2rem' },
+      })
+      const rect = wrapper.find('clipPath rect')
+      expect(rect.attributes('width')).toBe('50%')
     })
   })
 
-  describe('Vue Rating Input Component', () => {
-      
-    describe('With default props', () => {
-    
-      it('shoud render Rating Input component', () => {
-        expect(RatingInputWrapper.find('.rating-input').exists()).toBeTruthy()
-      })
-      
-      it.skip('shoud load Rating Input component template', () => {
-        expect(RatingInputWrapper.html()).toMatchSnapshot()
-      })
-  
-      it('shoud load stars rating input component with 5 stars', () => {
-        const stars = RatingInputWrapper.findAll('.rating-input__item').length
-        expect(stars).toEqual(5)
-      })
-    
-      it('shoud load Rating Input component with 5 stars', async () => {
-  
-        const randomSelectStar = ref(getRandomIndex(6))
-        const randomSelectStarValue = computed(() => randomSelectStar.value + 1) 
-
-        const stars = RatingInputWrapper.findAll('.rating-input__item')
-
-        await stars[randomSelectStar.value].trigger('click')
-
-        // @ts-ignore
-        expect(RatingInputWrapper.vm.selectedStar).toEqual(randomSelectStarValue.value)
-
-        const emitedValue = RatingInputWrapper.emitted()['update:modelValue']
-
-        expect(emitedValue).toBeTruthy()
-
-        expect(emitedValue[randomSelectStar.value]).toEqual([randomSelectStarValue.value])
-      })
+  describe('with default props', () => {
+    it('renders the root element', () => {
+      const wrapper = mount(RatingInput)
+      expect(wrapper.find('.v-rating').exists()).toBe(true)
     })
 
-    describe('With custom props', () => {
+    it('renders 5 stars by default', () => {
+      const wrapper = mount(RatingInput)
+      expect(wrapper.findAll('.v-rating__star')).toHaveLength(5)
+    })
 
-      it('shoud load Rating Input component with 3 stars', () => {
-  
-        const numberOfStars = 3
+    it('emits update:modelValue with the clicked star value', async () => {
+      const wrapper = mount(RatingInput)
+      await wrapper.findAll('.v-rating__star')[2].trigger('click')
 
-        const wrapper = mount(RatingInputComponent, {
-            propsData: {
-                numberOfStars
-            }
-        })
+      const emitted = wrapper.emitted('update:modelValue')
+      expect(emitted).toBeTruthy()
+      expect(emitted![0]).toEqual([3])
+    })
 
-        const stars = wrapper.findAll('.rating-input__item').length
-    
-        expect(stars).toEqual(numberOfStars)
+    it('does not re-emit when clicking the already selected star', async () => {
+      const wrapper = mount(RatingInput)
+      const star = wrapper.findAll('.v-rating__star')[1]
+
+      await star.trigger('click')
+      await star.trigger('click')
+
+      expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
+    })
+  })
+
+  describe('with custom props', () => {
+    it('renders the requested number of stars', () => {
+      const wrapper = mount(RatingInput, { props: { numberOfStars: 3 } })
+      expect(wrapper.findAll('.v-rating__star')).toHaveLength(3)
+    })
+
+    it('initializes the hidden input from modelValue', () => {
+      const wrapper = mount(RatingInput, { props: { modelValue: 2 } })
+      const input = wrapper.find('input[type="hidden"]')
+      expect((input.element as HTMLInputElement).value).toBe('2')
+    })
+
+    it('does not emit on click when readonly', async () => {
+      const wrapper = mount(RatingInput, { props: { readonly: true } })
+      await wrapper.findAll('.v-rating__star')[0].trigger('click')
+      expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+    })
+
+    it('renders before and after slots', () => {
+      const wrapper = mount(RatingInput, {
+        slots: {
+          before: '<span class="my-before">before</span>',
+          after: '<span class="my-after">after</span>',
+        },
       })
-  
-      it('shoud init selectedStar with props modelValue', () => {
-  
-        const modelValue = ref(2)
+      expect(wrapper.find('.my-before').exists()).toBe(true)
+      expect(wrapper.find('.my-after').exists()).toBe(true)
+    })
+  })
 
-        const wrapper = mount(RatingInputComponent, {
-            propsData: {
-                modelValue: modelValue.value
-            }
-        })
-      
-        // @ts-ignore
-        expect(wrapper.vm.selectedStar).toEqual(modelValue.value)
-      })
+  describe('prop validation', () => {
+    it('throws when numberOfStars is out of range', () => {
+      expect(() => mount(RatingInput, { props: { numberOfStars: 20 as never } })).toThrow(RangeError)
     })
   })
 })
-
-
-
-
-
-
-
