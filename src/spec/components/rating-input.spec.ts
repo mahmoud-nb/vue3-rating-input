@@ -1,5 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import RatingInput from '../../components/rating-input.vue'
 import StarSVG from '../../components/StarSVG.vue'
 
@@ -83,8 +83,52 @@ describe('Vue Rating Input', () => {
   })
 
   describe('prop validation', () => {
-    it('throws when numberOfStars is out of range', () => {
-      expect(() => mount(RatingInput, { props: { numberOfStars: 20 as never } })).toThrow(RangeError)
+    it('clamps numberOfStars to the max and warns instead of throwing', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      const wrapper = mount(RatingInput, { props: { numberOfStars: 20 as never } })
+
+      expect(wrapper.findAll('.v-rating__star')).toHaveLength(10)
+      expect(warn).toHaveBeenCalled()
+
+      warn.mockRestore()
+    })
+  })
+
+  describe('accessibility', () => {
+    it('exposes a slider role with aria values', () => {
+      const wrapper = mount(RatingInput, { props: { modelValue: 3 } })
+      const slider = wrapper.find('.v-rating__stars')
+
+      expect(slider.attributes('role')).toBe('slider')
+      expect(slider.attributes('tabindex')).toBe('0')
+      expect(slider.attributes('aria-valuemin')).toBe('0')
+      expect(slider.attributes('aria-valuemax')).toBe('5')
+      expect(slider.attributes('aria-valuenow')).toBe('3')
+    })
+
+    it('increments the value with ArrowRight', async () => {
+      const wrapper = mount(RatingInput, { props: { modelValue: 2 } })
+
+      await wrapper.find('.v-rating__stars').trigger('keydown', { key: 'ArrowRight' })
+
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([3])
+    })
+
+    it('decrements the value with ArrowLeft', async () => {
+      const wrapper = mount(RatingInput, { props: { modelValue: 2 } })
+
+      await wrapper.find('.v-rating__stars').trigger('keydown', { key: 'ArrowLeft' })
+
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([1])
+    })
+
+    it('is not keyboard-focusable when readonly', () => {
+      const wrapper = mount(RatingInput, { props: { readonly: true, modelValue: 4 } })
+      const el = wrapper.find('.v-rating__stars')
+
+      expect(el.attributes('role')).toBe('img')
+      expect(el.attributes('tabindex')).toBeUndefined()
     })
   })
 })
